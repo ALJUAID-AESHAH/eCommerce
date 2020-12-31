@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+</head>
+<body>
+    <h1>thank you for your Order!</h1>
+    <h1> Your Order Number: {{order_number}}</h1>
+    <h3>Your Order Information:</h3>
+    <ul>
+        <li>Name: {{this_order.ordered_by.first_name}} {{this_order.ordered_by.last_name}}</li>
+        <li>Number of items you ordered: {{this_order.quantity_ordered}}</li>
+        <li>Total price: {{this_order.total_price}}</li>
+    </ul>
+</body>
+</html>

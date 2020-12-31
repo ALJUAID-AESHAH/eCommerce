@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>product's detailes</title>
+<style>
+    .w3-sidebar a {
+        font-family: "Roboto", sans-serif
+    }
+    
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .w3-wide {
+        font-family: "Montserrat", sans-serif;
+    }
+    
+    body {
+        font-family: Arial;
+        margin: 0;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    
+    img {
+        vertical-align: middle;
+    }
+    /* Position the image container (needed to position the left and right arrows) */
+    
+    .container {
+        position: relative;
+    }
+    /* Hide the images by default */
+    
+    .mySlides {
+        display: none;
+    }
+    /* Add a pointer when hovering over the thumbnail images */
+    
+    .cursor {
+        cursor: pointer;
+    }
+    
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+    /* On hover, add a black background color with a little bit see-through */
+    
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    /* Number text (1/3 etc) */
+    
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+    /* Container for image text */
+    
+    .caption-container {
+        text-align: center;
+        background-color: #222;
+        padding: 2px 16px;
+        color: white;
+    }
+    
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    /* Six columns side by side */
+    
+    .column {
+        float: left;
+        width: 10%;
+    }
+    
+    .col {
+        float: left;
+        width: 50%;
+    }
+    
+    .col h1 {
+        padding-top: 20%;
+    }
+    /* Add a transparency effect for thumnbail images */
+    
+    .demo {
+        opacity: 0.6;
+    }
+    
+    .active,
+    .demo:hover {
+        opacity: 1;
+    }
+    
+    .row_bottom {
+        display: flex;
+    }
+    /* Create three equal columns that sits next to each other */
+    
+    .column_bottom {
+        /* flex: 33.33%; */
+        padding: 5px;
+    }
+</style>
+
+<body class="w3-content" style="max-width:1200px">
+
+    <div class="container">
+        <div class="caption-container">
+            <p class="w3-left"><a href="/dashboard/all"> Return to main page</a></p>
+            <p class="w3-right">
+                <a href="/cart"><i class="fa fa-shopping-cart w3-margin-right"> </i></a>
+            </p>
+            <p>Mashallah Closet</p>
+            </p>
+        </div>
+        <br>
+        <div class="mySlides row">
+            <!-- <div class="numbertext">1 / 6</div> -->
+            <div class="col"><img src="{{item.image1}}" style="width:60%"></div>
+            <div class="col">
+                <h1>{{item.name}}</h1>
+                <p>{{item.desc}}</p>
+                <form action="/add_to_cart" method="post">
+                    {% csrf_token %}
+
+                    <select name="size" style="width: 10%;">
+                        {% for size in sizes %}
+                        <option value="{{size.id}}">{{size.size}}</option> 
+                            {% endfor %}             
+                </select><br><br>
+                    <button type="submit">Add to cart!</button> {{item.liked_by.all | length }} {% if user in item.liked_by.all %}
+                    <a href="/unfavorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i>
+                    </a> {% else %}
+                    <a href="/favorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+                    </a> {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="mySlides row">
+            <!-- <div class="numbertext">2 / 4</div> -->
+            <div class="col"><img src="{{item.image2}}" style="width:60%"></div>
+            <div class="col">
+                <h1>{{item.name}}</h1>
+                <p>{{item.desc}}</p>
+                <form action="/cart" method="post">
+                    {% csrf_token %}
+
+                    <select name="size" style="width: 10%;">
+                        {% for size in sizes %}
+                        <option value="{{size.id}}">{{size.size}}</option>              
+                            {% endfor %}              
+                </select><br><br>
+                    <button type="submit">Add to cart!</button> {{item.liked_by.all | length }} {% if user in item.liked_by.all %}
+                    <a href="/favorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> {% else %}
+                    <a href="/unfavorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="mySlides row">
+            <!-- <div class="numbertext">3 / 4</div> -->
+            <div class="col"><img src="{{item.image3}}" style="width:60%"></div>
+            <div class="col">
+                <h1>{{item.name}}</h1>
+                <p>{{item.desc}}</p>
+                <form action="/cart" method="post">
+                    {% csrf_token %}
+                    <select name="size" style="width: 10%;">
+                        {% for size in sizes %}
+                        <option value="{{size.id}}">{{size.size}}</option>              
+                            {% endfor %}              
+                </select><br><br>
+                    <button type="submit">Add to cart!</button> {{item.liked_by.all | length }} {% if user in item.liked_by.all %}
+                    <a href="/favorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> {% else %}
+                    <a href="/unfavorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="mySlides row">
+            <!-- <div class="numbertext">4 / 4</div> -->
+            <div class="col"><img src="{{item.image4}}" style="width:60%"></div>
+            <div class="col">
+                <h1>{{item.name}}</h1>
+                <p>{{item.desc}}</p>
+                <form action="/cart" method="post">
+                    {% csrf_token %}
+                    <select name="size" style="width: 10%;">
+                        {% for size in sizes %}
+                        <option value="{{size.id}}">{{size.size}}</option>              
+                            {% endfor %}              
+                </select><br><br>
+                    <button type="submit">Add to cart!</button> {{item.liked_by.all | length }} {% if user in item.liked_by.all %}
+                    <a href="/favorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-down"></i></a> {% else %}
+                    <a href="/unfavorit/{{ item.id }}"><i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></a> {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="column ">
+                <img class="demo cursor " src="{{item.image1}} " style="width:100% " onclick="currentSlide(1) " alt="The Woods ">
+            </div>
+            <div class="column ">
+                <img class="demo cursor " src="{{item.image2}}" style="width:100% " onclick="currentSlide(2) " alt="Cinque Terre ">
+            </div>
+            <div class="column ">
+                <img class="demo cursor " src="{{item.image3}}" style="width:100% " onclick="currentSlide(3) " alt="Mountains and
+                        fjords ">
+            </div>
+            <div class="column ">
+                <img class="demo cursor " src="{{item.image4}}" style="width:100% " onclick="currentSlide(4) " alt="Northern Lights ">
+            </div>
+        </div>
+    </div><br><br>
+    <h3>Similar Items</h3>
+    <div class="row_bottom ">
+        {% for item in similar_items %}
+        <div class="column_bottom ">
+            <a href="/detailes/{{item.category}}/{{item.id}}"><img src="{{item.image1}}" alt="{{item.category}}" style="width:150px; height:200px;"></a>
+        </div>
+        {% endfor %}
+
+    </div>
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides ");
+            var dots = document.getElementsByClassName("demo ");
+            var captionText = document.getElementById("caption ");
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none ";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active ", " ");
+            }
+            slides[slideIndex - 1].style.display = "block ";
+            dots[slideIndex - 1].className += " active ";
+            captionText.innerHTML = dots[slideIndex - 1].alt;
+        }
+    </script>
+
+</body>
+
+</html>
+
+</html>
